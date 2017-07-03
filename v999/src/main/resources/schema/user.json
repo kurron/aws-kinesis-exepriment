@@ -1,7 +1,0 @@
-{
-  "type": "record",
-  "namespace": "org.kurron.avro.example",
-  "name": "Dummy",
-  "doc": "just to make Gradle happy",
-  "fields": []
-}

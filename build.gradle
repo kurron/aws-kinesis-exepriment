@@ -17,6 +17,7 @@ subprojects {
         compile"org.apache.avro:avro:${AVRO_VERSION}"
         compile "org.apache.avro:avro-tools:${AVRO_VERSION}"
         compile "com.amazonaws:amazon-kinesis-client:${KINESIS_CLIENT_LIBRARY_VERSION}"
+        compile "com.amazonaws:amazon-kinesis-producer:${KINESIS_PRODUCER_LIBRARY_VERSION}"
 
         testCompile( "org.spockframework:spock-core:${SPOCK_VERSION}" ) {
             exclude module: 'groovy-all'

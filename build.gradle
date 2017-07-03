@@ -13,10 +13,12 @@ subprojects {
     }
 
     dependencies {
-        compile("org.codehaus.groovy:groovy:2.4.11")
-        compile("org.apache.avro:avro:1.8.2")
-        compile("org.apache.avro:avro-tools:1.8.2")
-        testCompile( "org.spockframework:spock-core:1.1-groovy-2.4" ) {
+        compile "org.codehaus.groovy:groovy:${GROOVY_VERSION}"
+        compile"org.apache.avro:avro:${AVRO_VERSION}"
+        compile "org.apache.avro:avro-tools:${AVRO_VERSION}"
+        compile "com.amazonaws:amazon-kinesis-client:${KINESIS_CLIENT_LIBRARY_VERSION}"
+
+        testCompile( "org.spockframework:spock-core:${SPOCK_VERSION}" ) {
             exclude module: 'groovy-all'
         }
     }

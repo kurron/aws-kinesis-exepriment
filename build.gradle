@@ -1,30 +1,12 @@
 subprojects {
 
-    buildscript {
-        repositories {
-            jcenter()
-        }
-        dependencies {
-            classpath "io.spring.gradle:dependency-management-plugin:${SPRING_DEPENDENCY_PLUGIN_VERSION}"
-            classpath "org.springframework.boot:spring-boot-gradle-plugin:${SPRING_BOOT_VERSION}"
-        }
-    }
-
     apply plugin: 'groovy'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
-    repositories {
-        jcenter()
-
-        maven {
-            url " http://dl.bintray.com/kurron/maven"
-        }
-    }
-
     dependencies {
-        compile "org.codehaus.groovy:groovy:${GROOVY_VERSION}"
+        compile "org.codehaus.groovy:groovy"
         compile"org.apache.avro:avro:${AVRO_VERSION}"
         compile "org.apache.avro:avro-tools:${AVRO_VERSION}"
         compile "com.amazonaws:amazon-kinesis-client:${KINESIS_CLIENT_LIBRARY_VERSION}"

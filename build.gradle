@@ -1,4 +1,15 @@
 subprojects {
+
+    buildscript {
+        repositories {
+            jcenter()
+        }
+        dependencies {
+            classpath "io.spring.gradle:dependency-management-plugin:${SPRING_DEPENDENCY_PLUGIN_VERSION}"
+            classpath "org.springframework.boot:spring-boot-gradle-plugin:${SPRING_BOOT_VERSION}"
+        }
+    }
+
     apply plugin: 'groovy'
 
     sourceCompatibility = 1.8

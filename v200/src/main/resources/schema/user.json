@@ -1,0 +1,76 @@
+{
+  "type": "record",
+  "namespace": "org.kurron.avro.example",
+  "name": "User",
+  "doc": "structure representing a user in the system",
+  "fields": [
+    {
+      "name": "firstname",
+      "type": "string",
+      "default": "defaulted v140 firstname",
+      "aliases": ["name"],
+      "doc": "the user's real world first name"
+    },
+    {
+      "name": "lastname",
+      "type": "string",
+      "default": "defaulted v140 lastname",
+      "doc": "the user's real world last name"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "default": "defaulted v140 username",
+      "doc": "the user's system login"
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "default": true,
+      "doc": "if true, indicates that the account is still enabled (not deactivated)"
+    },
+    {
+      "name": "id",
+      "type": "int",
+      "default": 0,
+      "doc": "unique identifier of the user within the system"
+    },
+    {
+      "name": "addedDate",
+      "type": "int",
+      "logicalType": "date",
+      "default": 0,
+      "doc": "date when the user was added to the system"
+    },
+    {
+      "name": "addedTime",
+      "type": "int",
+      "logicalType": "time-millis",
+      "default": 0,
+      "doc": "time when the user was added to the system"
+    },
+    {
+      "name": "gender",
+      "type": { "type": "enum", "name": "Gender", "symbols" : ["MALE", "FEMALE", "UNDECLARED"] },
+      "default": "UNDECLARED",
+      "doc": "the user's declared gender"
+    },
+    {
+      "name": "comments",
+      "type": { "type": "array", "name": "Comments", "items" : "string" },
+      "default": "Avro ignores this for arrays.  The default is an empty array.",
+      "doc": "collection of notes inserted by the administrator"
+    },
+    {
+      "name": "sessions",
+      "type": { "type": "map", "name": "Sessions", "values" : "int" },
+      "default": "Avro ignores this for maps.  The default is an empty map.",
+      "doc": "map of session duration time (seconds) keyed by the month, eg. July"
+    },
+    {
+      "name": "breakingChange",
+      "type": "string",
+      "doc": "adding a field without supplying a default value is a breaking change"
+    }
+  ]
+}

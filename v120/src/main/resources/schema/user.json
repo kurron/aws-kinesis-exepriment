@@ -1,0 +1,27 @@
+{
+  "type": "record",
+  "namespace": "org.kurron.avro.example",
+  "name": "User",
+  "doc": "structure representing a user in the system",
+  "fields": [
+    {
+      "name": "firstname",
+      "type": "string",
+      "default": "defaulted v120 firstname",
+      "aliases": ["name"],
+      "doc": "the user's real world first name"
+    },
+    {
+      "name": "lastname",
+      "type": "string",
+      "default": "defaulted v120 lastname",
+      "doc": "the user's real world last name"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "default": "defaulted v120 username",
+      "doc": "the user's system login"
+    }
+  ]
+}

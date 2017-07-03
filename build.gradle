@@ -1,0 +1,46 @@
+subprojects {
+    apply plugin: 'groovy'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+        jcenter()
+
+        maven {
+            url " http://dl.bintray.com/kurron/maven"
+        }
+    }
+
+    dependencies {
+        compile("org.codehaus.groovy:groovy:2.4.11")
+        compile("org.apache.avro:avro:1.8.2")
+        compile("org.apache.avro:avro-tools:1.8.2")
+        testCompile( "org.spockframework:spock-core:1.1-groovy-2.4" ) {
+            exclude module: 'groovy-all'
+        }
+    }
+
+    task generateFromSchema( type: JavaExec ) {
+        classpath = files( '../avro-tools-1.8.2.jar' )
+        main = 'org.apache.avro.tool.Main'
+        args = ['compile', 'schema', "${projectDir.path}/src/main/resources/schema/user.json", "${projectDir.path}/src/main/java"]
+    }
+
+    task writeData( type: JavaExec ) {
+        classpath = sourceSets.main.runtimeClasspath
+        main = 'org.kurron.avro.example.DatFileWriter'
+        args = []
+    }
+
+    compileJava.dependsOn( generateFromSchema )
+    compileTestGroovy.dependsOn( writeData )
+
+    task hello {
+        doLast { task ->
+            println "I'm $task.project.name"
+        }
+    }
+}
+
+defaultTasks = ['clean', 'build']

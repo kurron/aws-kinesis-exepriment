@@ -11,8 +11,14 @@ subprojects {
 
     dependencies {
         compile "org.codehaus.groovy:groovy:${GROOVY_VERSION}"
-        compile "org.apache.avro:avro:${AVRO_VERSION}"
-        compile "org.apache.avro:avro-tools:${AVRO_VERSION}"
+/*
+        compile( "org.apache.avro:avro:${AVRO_VERSION}" ) {
+            exclude module: 'commons-httpclient'
+        }
+        compile( "org.apache.avro:avro-tools:${AVRO_VERSION}" ) {
+            exclude module: 'commons-httpclient'
+        }
+*/
         compile "com.amazonaws:amazon-kinesis-client:${KINESIS_CLIENT_LIBRARY_VERSION}"
         compile "com.amazonaws:amazon-kinesis-producer:${KINESIS_PRODUCER_LIBRARY_VERSION}"
 

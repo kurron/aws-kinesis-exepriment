@@ -11,10 +11,10 @@ subprojects {
 
     dependencies {
         compile "org.codehaus.groovy:groovy:${GROOVY_VERSION}"
-/*
         compile( "org.apache.avro:avro:${AVRO_VERSION}" ) {
             exclude module: 'commons-httpclient'
         }
+/*
         compile( "org.apache.avro:avro-tools:${AVRO_VERSION}" ) {
             exclude module: 'commons-httpclient'
         }

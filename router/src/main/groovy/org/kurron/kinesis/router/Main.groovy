@@ -20,33 +20,36 @@ class Main {
 
         def shard = shards.first()
         def getShardIteratorRequest = new GetShardIteratorRequest( streamName: streamName,
-                shardId: shard.shardId,
-                shardIteratorType: 'TRIM_HORIZON' )
+                                                                   shardId: shard.shardId,
+                                                                   shardIteratorType: 'TRIM_HORIZON' )
 
         def getShardIteratorResult = client.getShardIterator( getShardIteratorRequest )
         def shardIterator = getShardIteratorResult.getShardIterator()
 
+        //noinspection GroovyInfiniteLoopStatement
         while( true ) {
-            println "Shard iterator: ${shardIterator}"
-            def request = new GetRecordsRequest( shardIterator: shardIterator, limit: 25 )
+            def request = new GetRecordsRequest( shardIterator: shardIterator, limit: 250 )
             def result = client.getRecords( request )
             def records = result.getRecords()
             println "Just read ${records.size()} records"
+            records.each {
+                println "Record number is ${it.sequenceNumber}"
+            }
             Thread.sleep( 1000 )
             shardIterator = result.getNextShardIterator()
         }
     }
 
-    private static ArrayList<Shard> fetchShards( AmazonKinesisClient client, String streamName ) {
-        def describeStreamRequest = new DescribeStreamRequest( streamName: streamName )
+    private static List<Shard> fetchShards( AmazonKinesisClient client, String streamName ) {
+        def request = new DescribeStreamRequest( streamName: streamName )
 
         List<Shard> shards = new ArrayList<>(32)
         String exclusiveStartShardId = null
         while (true) {
-            describeStreamRequest.setExclusiveStartShardId(exclusiveStartShardId)
-            def describeStreamResult = client.describeStream(describeStreamRequest)
-            shards.addAll(describeStreamResult.getStreamDescription().getShards())
-            exclusiveStartShardId = describeStreamResult.getStreamDescription().getHasMoreShards() && shards.size() > 0 ? shards.get(shards.size() - 1).getShardId() : null
+            request.setExclusiveStartShardId(exclusiveStartShardId)
+            def result = client.describeStream(request)
+            shards.addAll(result.getStreamDescription().getShards())
+            exclusiveStartShardId = result.getStreamDescription().getHasMoreShards() && shards.size() > 0 ? shards.get(shards.size() - 1).getShardId() : null
             if (exclusiveStartShardId == null) break
         }
         shards

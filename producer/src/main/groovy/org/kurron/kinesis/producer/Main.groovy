@@ -2,10 +2,11 @@ package org.kurron.kinesis.producer
 
 import com.amazonaws.auth.EnvironmentVariableCredentialsProvider
 import com.amazonaws.services.kinesis.AmazonKinesisClientBuilder
-import com.amazonaws.services.kinesis.model.PutRecordsRequest
-import com.amazonaws.services.kinesis.model.PutRecordsRequestEntry
+import com.amazonaws.services.kinesis.model.PutRecordRequest
 
-import java.nio.ByteBuffer
+import static java.lang.String.format
+import static java.lang.String.valueOf
+import static java.nio.ByteBuffer.wrap
 
 /**
  * Application driver.
@@ -18,11 +19,17 @@ class Main {
                                                .withRegion( 'us-west-2')
                                                .build()
         def records = (1..100).collect {
-            new PutRecordsRequestEntry( data: ByteBuffer.wrap(String.valueOf(it).getBytes()),
-                    partitionKey: String.format("partitionKey-%d", it) )
+            new PutRecordRequest( streamName: 'example',
+                                  data: wrap( valueOf( it ).bytes ),
+                                  partitionKey: format( 'partitionKey-%d', it ) )
         }
-        def request = new PutRecordsRequest( streamName: 'example', records: records )
-        def result = client.putRecords( request )
-        System.out.println("Put Result" + result)
+
+        def finalSequenceNumber = records.inject( '0' ) { String sequenceNumber, request ->
+            request.setSequenceNumberForOrdering( sequenceNumber )
+            def result = client.putRecord( request )
+            result.sequenceNumber
+        }
+        System.out.println("Just pushed ${records.size()} records")
+        System.out.println( "Final sequence number is ${finalSequenceNumber}")
     }
 }

@@ -1,7 +1,8 @@
 package org.kurron.kinesis.router
 
 import com.amazonaws.auth.EnvironmentVariableCredentialsProvider
-import com.amazonaws.services.kinesis.AmazonKinesisClient
+import com.amazonaws.services.kinesis.AmazonKinesis
+import com.amazonaws.services.kinesis.AmazonKinesisClientBuilder
 import com.amazonaws.services.kinesis.model.DescribeStreamRequest
 import com.amazonaws.services.kinesis.model.GetRecordsRequest
 import com.amazonaws.services.kinesis.model.GetShardIteratorRequest
@@ -13,9 +14,11 @@ import com.amazonaws.services.kinesis.model.Shard
 class Main {
 
     static void main(String[] args) {
-        def client = new AmazonKinesisClient( new EnvironmentVariableCredentialsProvider() )
-
-        final def streamName = 'example'
+        def client = AmazonKinesisClientBuilder.standard()
+                                               .withCredentials( new EnvironmentVariableCredentialsProvider() )
+                                               .withRegion( 'us-west-2')
+                                               .build()
+        def streamName = 'example'
         def shards = fetchShards( client, streamName )
 
         def shard = shards.first()
@@ -40,7 +43,7 @@ class Main {
         }
     }
 
-    private static List<Shard> fetchShards( AmazonKinesisClient client, String streamName ) {
+    private static List<Shard> fetchShards(AmazonKinesis client, String streamName ) {
         def request = new DescribeStreamRequest( streamName: streamName )
 
         List<Shard> shards = new ArrayList<>(32)

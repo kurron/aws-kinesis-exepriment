@@ -1,7 +1,7 @@
 package org.kurron.kinesis.producer
 
 import com.amazonaws.auth.EnvironmentVariableCredentialsProvider
-import com.amazonaws.services.kinesis.AmazonKinesisClient
+import com.amazonaws.services.kinesis.AmazonKinesisClientBuilder
 import com.amazonaws.services.kinesis.model.PutRecordsRequest
 import com.amazonaws.services.kinesis.model.PutRecordsRequestEntry
 
@@ -13,7 +13,10 @@ import java.nio.ByteBuffer
 class Main {
 
     static void main(String[] args) {
-        def client = new AmazonKinesisClient(new EnvironmentVariableCredentialsProvider())
+        def client = AmazonKinesisClientBuilder.standard()
+                                               .withCredentials( new EnvironmentVariableCredentialsProvider() )
+                                               .withRegion( 'us-west-2')
+                                               .build()
         def records = (1..100).collect {
             new PutRecordsRequestEntry( data: ByteBuffer.wrap(String.valueOf(it).getBytes()),
                     partitionKey: String.format("partitionKey-%d", it) )

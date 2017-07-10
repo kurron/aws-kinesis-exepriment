@@ -1,0 +1,23 @@
+{
+  "type": "record",
+  "namespace": "org.kurron.kinesis",
+  "name": "Schema",
+  "doc": "Describes the location in the schema registry where the schema lives",
+  "fields": [
+    {
+      "name": "vendor",
+      "type": "string",
+      "doc": "Vendor that generated the schema"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "doc": "Schema's unique name"
+    },
+    {
+      "name": "version",
+      "type": "string",
+      "doc": "Semantic version of the schema"
+    }
+  ]
+}

@@ -1,3 +1,7 @@
+plugins {
+    id 'com.commercehub.gradle.plugin.avro' version "0.9.0" apply false
+}
+
 subprojects {
 
     repositories {
@@ -5,6 +9,7 @@ subprojects {
     }
 
     apply plugin: 'groovy'
+    apply plugin: 'com.commercehub.gradle.plugin.avro'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -14,11 +19,6 @@ subprojects {
         compile( "org.apache.avro:avro:${AVRO_VERSION}" ) {
             exclude module: 'commons-httpclient'
         }
-/*
-        compile( "org.apache.avro:avro-tools:${AVRO_VERSION}" ) {
-            exclude module: 'commons-httpclient'
-        }
-*/
         compile "com.amazonaws:amazon-kinesis-client:${KINESIS_CLIENT_LIBRARY_VERSION}"
         compile "com.amazonaws:amazon-kinesis-producer:${KINESIS_PRODUCER_LIBRARY_VERSION}"
 
@@ -26,6 +26,17 @@ subprojects {
             exclude module: 'groovy-all'
         }
     }
+
+    avro {
+        createSetters = true
+        fieldVisibility = 'PUBLIC_DEPRECATED'
+        outputCharacterEncoding = 'UTF-8'
+        stringType = 'String'
+//      templateDirectory = '/foo/bar'
+    }
+
+    //compileJava.dependsOn generateAvroJava
+
 
     task hello {
         doLast { task ->

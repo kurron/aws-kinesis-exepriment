@@ -1,2 +1,2 @@
 // include 'producer', 'router', 'journaler', 'command-processor', 'query-processor', 'event-processor', 'error-processor'
-include 'producer', 'router'
+include 'avro', 'producer', 'router'

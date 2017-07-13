@@ -45,4 +45,16 @@ subprojects {
     }
 }
 
+project( ':producer' ) {
+    dependencies {
+        compile project(':avro')
+    }
+}
+
+project( ':router' ) {
+    dependencies {
+        compile project(':avro')
+    }
+}
+
 defaultTasks = ['clean', 'build']

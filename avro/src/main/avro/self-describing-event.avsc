@@ -11,6 +11,11 @@
       "doc": "Schema used to write the event"
     },
     {
+      "name": "eventType",
+      "type": "string",
+      "doc": "Unique type within the event hierarchy.  For example, event.failure.authentication."
+    },
+    {
       "name": "event",
       "type": "Event",
       "namespace": "org.kurron.kinesis",
